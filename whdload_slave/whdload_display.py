@@ -58,17 +58,14 @@ class WHDLoadDisplay(object):
             if i == 0:
                 value += line
                 continue
-
-            value += "\n{}  {}".format(
-                ' ' * self.padding, line)
+            value += '\n'.ljust(self.padding + 3)
+            value += line
         return value
 
     def display_properties(self):
         for key, friendly_name in self.PROPERTY_FRIENDLY_NAMES.items():
             # Pad friendly name to align columns
-            if len(friendly_name) < self.padding:
-                friendly_name = friendly_name + " " * (
-                    self.padding - len(friendly_name))
+            friendly_name = friendly_name.ljust(self.padding)
 
             if hasattr(self.slave, key):
                 value = getattr(self.slave, key)
