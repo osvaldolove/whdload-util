@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """Tests for `whdload_slave` package."""
 
 import pytest
+
+import os
 
 from click.testing import CliRunner
 
@@ -27,12 +28,26 @@ def test_content(response):
     # assert 'GitHub' in BeautifulSoup(response.content).title.string
 
 
-def test_command_line_interface():
-    """Test the CLI."""
+@pytest.fixture
+def flimbos_quest_slave():
+    return os.path.join(
+        os.path.dirname(__file__), 'data', 'FlimbosQuest.slave')
+
+
+def test_whdload_slave(flimbos_quest_slave):
     runner = CliRunner()
-    result = runner.invoke(cli.main)
+    result = runner.invoke(cli.main, [flimbos_quest_slave])
     assert result.exit_code == 0
-    assert 'whdload_slave.cli.main' in result.output
-    help_result = runner.invoke(cli.main, ['--help'])
-    assert help_result.exit_code == 0
-    assert '--help  Show this message and exit.' in help_result.output
+    assert "WHDLoad Slave Reader" in result.output
+    assert "13d48741b7a374436c0c32ea95823067fe9dcda8" in result.output
+
+
+# def test_command_line_interface():
+#     """Test the CLI."""
+#     runner = CliRunner()
+#     result = runner.invoke(cli.main)
+#     assert result.exit_code == 0
+#     assert 'whdload_slave.cli.main' in result.output
+#     help_result = runner.invoke(cli.main, ['--help'])
+#     assert help_result.exit_code == 0
+#     assert '--help  Show this message and exit.' in help_result.output

@@ -15,7 +15,6 @@ from .whdload_display import WHDLoadDisplay
         exists=True, readable=True, file_okay=True, resolve_path=True))
 def main(path):
     """Console script for whdload_slave."""
-
     whdload_slave = WHDLoadSlaveFile.from_path(path)
     whdload_slave.read()
     display = WHDLoadDisplay(whdload_slave)
